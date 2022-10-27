@@ -1,23 +1,7 @@
-pipeline {
-    agent {
-        docker {
-            image 'maven:3.8.1-adoptopenjdk-11' 
-            args '-v /root/.m2:/root/.m2' 
-        }
-    }
-    options {
-        skipStagesAfterUnstable()
-    }
-    stages {
-        stage('Build') { 
-            steps {
-                sh 'mvn -B -DskipTests clean package' 
-            }
-        }
-        stage('Run') { 
-            steps {
-                sh 'java -jar target/spring-boot-docker-complete-0.0.1-SNAPSHOT.jar' 
-            }
-        }
+node {
+    stage('Clone repository') {
+        /* Let's make sure we have the repository cloned to our workspace */
+
+        checkout scm
     }
 }
