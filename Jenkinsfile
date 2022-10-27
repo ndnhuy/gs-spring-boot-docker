@@ -1,4 +1,5 @@
 node {
+    def app
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
 
@@ -8,7 +9,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        def customImage = docker.build("springio/gs-spring-boot-docker")
+        app = docker.build("springio/gs-spring-boot-docker")
     }
     stage('Test image') {
         /* Ideally, we would run a test framework against our image.
