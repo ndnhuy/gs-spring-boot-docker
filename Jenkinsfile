@@ -1,22 +1,30 @@
-node {
-    def app
-    stage('Clone repository') {
-        /* Let's make sure we have the repository cloned to our workspace */
-
-        checkout scm
+pipeline {
+    agent none
+    options {
+        skipStagesAfterUnstable()
     }
-    stage('Build image') {
-        /* This builds the actual image; synonymous to
-         * docker build on the command line */
-
-        app = docker.build("springio/gs-spring-boot-docker")
-    }
-    stage('Test image') {
-        /* Ideally, we would run a test framework against our image.
-         * For this example, we're using a Volkswagen-type approach ;-) */
-
-        app.inside {
-            sh 'echo "Tests passed"'
+    stages {
+        stage('Build') {
+            agent {
+                docker {
+                    image 'maven:3.8.1-adoptopenjdk-11' 
+                    args '-v /root/.m2:/root/.m2' 
+                }
+            }
+            steps {
+                sh 'mvn -B -DskipTests clean package' 
+            }
+        }
+        stage('Build image') { 
+            steps {
+                sh 'docker build -t springio/gs-spring-boot-docker .' 
+                sh 'docker run -p 8080:8080 springio/gs-spring-boot-docker -d'
+            }
+        }
+        stage('Test image') {
+            steps {
+                sh 'docker exec mystifying_feistel echo "Test passed"'
+            }
         }
     }
 }
