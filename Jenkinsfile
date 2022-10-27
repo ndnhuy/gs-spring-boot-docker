@@ -14,5 +14,10 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package' 
             }
         }
+        stage('Run') { 
+            steps {
+                sh 'java -jar target/gs-spring-boot-docker-0.1.0.jar' 
+            }
+        }
     }
 }
