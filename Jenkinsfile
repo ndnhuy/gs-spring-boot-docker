@@ -9,7 +9,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build("springio/gs-spring-boot-docker")
+        app = docker.build("ndnhuy2504/test")
     }
     stage('Test image') {
         /* Ideally, we would run a test framework against our image.
@@ -24,7 +24,7 @@ node {
          * First, the incremental build number from Jenkins
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
-        sh 'docker tag springio/gs-spring-boot-docker ndnhuy2504/test:1.0'
-        app.push("1.0", false)
+        docker.withRegistry('', 'dockerhub')
+        app.push()
     }
 }
