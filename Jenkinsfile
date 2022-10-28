@@ -25,6 +25,6 @@ node {
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
         sh 'docker tag springio/gs-spring-boot-docker ndnhuy2504/test:1.0'
-        app.push()
+        app.push("1.0", false)
     }
 }
