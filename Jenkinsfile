@@ -25,7 +25,7 @@ node {
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
         sh 'docker tag springio/gs-spring-boot-docker ndnhuy2504/test:1.0'
-        sh 'echo $docker-hub-credentials_PSW | docker login -u ndnhuy2504 --password-stdin'
+        sh 'echo $dockerhub_PSW | docker login -u ndnhuy2504 --password-stdin'
         sh 'docker push ndnhuy2504/test:1.0'
     }
 }
